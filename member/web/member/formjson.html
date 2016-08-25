@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<script type="text/javascript">
+	function objToJson(formData){
+		var data = formData;
+		var obj = {};
+		$.each(data, function(idx, ele){
+			obj[ele.name] = ele.value;
+		});
+		return obj;
+	}
+	
+	/* function formToJson */
+	
+	// jquery 확장
+	jQuery.fn.serializeObject = function() {
+	var obj = null;
+	try {
+		// this[0].tagName이 form tag일 경우
+		if(this[0].tagName && this[0].tagName.toUpperCase() == "FORM" ) {
+			var arr = this.serializeArray();
+			if(arr){
+				obj = {};    
+				$.each(arr, function() {
+					// obj의 key값은 arr의 name, obj의 value는 value값
+					obj[this.name] = this.value;
+				});				
+			}
+		}
+	}catch(e) {
+		alert(e.message);
+	}finally  {}
+		return obj;
+	};
+$(function(){
+	$("#btn").click(function(){
+	// 반환받은 obj를 JSON 객체로 변환
+		var jsonObj = JSON.stringify($("#form").serializeObject());
+		alert(jsonObj);
+		/* console.log(jsonObj); */
+	});
+});
+</script>
+
+<!-- serializeArray()를 받아서 반환하는 함수
+<script type="text/javascript">
+	function objToJson(formData){
+		var data = formData;
+		var obj = {};
+		$.each(data, function(idx, ele){
+			obj[ele.name] = ele.value;
+		});
+		return obj;
+	}
+</script> -->
+</head>
+<body>
+	<form id="form" action="">
+		<input type="text" name="mid">
+		<input type="text" name="mpwd">
+		<input type="button" name="btn" id="btn" value="변환">	
+	</form>
+
+</body>
+</html>
